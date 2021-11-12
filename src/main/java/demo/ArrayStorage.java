@@ -10,7 +10,7 @@ import static java.util.Objects.isNull;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int storageSize;
+    private int storageSize;
 
 
     public int getStorageSize() {
@@ -38,18 +38,15 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         for (Resume resume : storage)
-            if (null != resume) {
-                if (uuid.equals(resume.getUuid())) {
-                    return resume;
-                }
+            if (null != resume && uuid.equals(resume.getUuid())) {
+                return resume;
             }
         return null;
     }
 
     void delete(String uuid) {
         IntStream.range(0, storage.length).forEach(i -> {
-            Resume resume = storage[i];
-            if (null != storage[i] && uuid.equals(resume.getUuid())) {
+            if (null != storage[i] && uuid.equals(storage[i].getUuid())) {
                 storage[i] = null;
                 storageSize--;
                 optimizeStorage(i);
