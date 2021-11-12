@@ -1,9 +1,11 @@
+package demo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for ArrayStorage implementation
+ * Interactive test for demo.ArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
