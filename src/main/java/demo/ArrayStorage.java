@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[3];
+    Resume[] storage = new Resume[10000];
     private int storageSize;
 
 
