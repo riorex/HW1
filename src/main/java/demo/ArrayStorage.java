@@ -32,8 +32,10 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        IntStream.range(0, storage.length).filter(i -> isNull(storage[i])).findFirst().ifPresent(i -> storage[i] = r);
-        storageSize++;
+        IntStream.range(0, storage.length).filter(i -> isNull(storage[i])).findFirst().ifPresent(i -> {
+            storage[i] = r;
+            storageSize++;
+        });
     }
 
     Resume get(String uuid) {
