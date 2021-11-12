@@ -3,8 +3,6 @@ package demo;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import static java.util.Objects.isNull;
-
 /**
  * Array based storage for Resumes
  */
@@ -12,36 +10,25 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     private int storageSize;
 
-
-    public int getStorageSize() {
-        return storageSize;
-    }
-
     public void setStorageSize(int storageSize) {
         this.storageSize = storageSize;
     }
 
-
     void clear() {
-        IntStream.range(0, storage.length).forEach(i -> {
-            if (null != storage[i]) {
-                storage[i] = null;
-            }
+        IntStream.range(0, size()).forEach(i -> {
+            storage[i] = null;
         });
         setStorageSize(0);
     }
 
     void save(Resume r) {
-        IntStream.range(0, storage.length).filter(i -> isNull(storage[i])).findFirst().ifPresent(i -> {
-            storage[i] = r;
-            storageSize++;
-        });
+        storage[size()] = r;
+        storageSize++;
     }
-
 
     Resume get(String uuid) {
         final Resume[] resume = new Resume[1];
-        IntStream.range(0, getStorageSize()).forEach(i -> {
+        IntStream.range(0, size() - 1).forEach(i -> {
             if (uuid.equals(storage[i].getUuid())) {
                 resume[0] = storage[i];
             }
@@ -50,8 +37,8 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        IntStream.range(0, getStorageSize()).forEach(i -> {
-            if (null != storage[i] && uuid.equals(storage[i].getUuid())) {
+        IntStream.range(0, size() - 1).forEach(i -> {
+            if (uuid.equals(storage[i].getUuid())) {
                 storage[i] = null;
                 optimizeStorage(i);
                 storageSize--;
@@ -67,11 +54,11 @@ public class ArrayStorage {
     }
 
     int size() {
-        return getStorageSize();
+        return storageSize;
     }
 
     void optimizeStorage(int deletedIndex) {
-        IntStream.range(deletedIndex, getStorageSize() - 1).forEach(i -> {
+        IntStream.range(deletedIndex, size() - 1).forEach(i -> {
             storage[i] = storage[i + 1];
             storage[i + 1] = null;
         });
