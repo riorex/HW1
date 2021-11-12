@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    Resume[] storage = new Resume[3];
     private int storageSize;
 
 
@@ -38,20 +38,23 @@ public class ArrayStorage {
         });
     }
 
+
     Resume get(String uuid) {
-        for (Resume resume : storage)
-            if (null != resume && uuid.equals(resume.getUuid())) {
-                return resume;
+        final Resume[] resume = new Resume[1];
+        IntStream.range(0, getStorageSize()).forEach(i -> {
+            if (uuid.equals(storage[i].getUuid())) {
+                resume[0] = storage[i];
             }
-        return null;
+        });
+        return resume[0];
     }
 
     void delete(String uuid) {
-        IntStream.range(0, storage.length).forEach(i -> {
+        IntStream.range(0, getStorageSize()).forEach(i -> {
             if (null != storage[i] && uuid.equals(storage[i].getUuid())) {
                 storage[i] = null;
-                storageSize--;
                 optimizeStorage(i);
+                storageSize--;
             }
         });
     }
@@ -68,8 +71,9 @@ public class ArrayStorage {
     }
 
     void optimizeStorage(int deletedIndex) {
-        IntStream.range(deletedIndex, storage.length - 1).forEach(i -> {
+        IntStream.range(deletedIndex, getStorageSize() - 1).forEach(i -> {
             storage[i] = storage[i + 1];
+            storage[i + 1] = null;
         });
     }
 }
