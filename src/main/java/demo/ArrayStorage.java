@@ -10,15 +10,9 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     private int storageSize;
 
-    public void setStorageSize(int storageSize) {
-        this.storageSize = storageSize;
-    }
-
     void clear() {
-        IntStream.range(0, size()).forEach(i -> {
-            storage[i] = null;
-        });
-        setStorageSize(0);
+        IntStream.range(0, size()).forEach(i -> storage[i] = null);
+        storageSize = 0;
     }
 
     void save(Resume r) {
